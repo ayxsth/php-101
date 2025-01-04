@@ -1,40 +1,19 @@
 <?php
 
-$names = ['John', 'Jane', 'Doe'];
+include 'util.php';
 
-$movies = [
-  [
-    'title' => 'The Shawshank Redemption',
-    'director' => 'Frank Darabont',
-    'year' => 1994
-  ],
-  [
-    'title' => 'The Godfather',
-    'director' => 'Francis Ford Coppola',
-    'year' => 1972
-  ],
-  [
-    'title' => 'The Dark Knight',
-    'director' => 'Christopher Nolan',
-    'year' => 2008
-  ], [
-    'title' => 'The Godfather: Part II',
-    'director' => 'Francis Ford Coppola',
-    'year' => 1974
-  ]
+$url = parse_url($_SERVER['REQUEST_URI'])['path'];
+
+$baseUrl = getBaseUrl();
+
+$routes = [
+  $baseUrl => 'controllers/home.php',
+  $baseUrl . 'about/' => 'controllers/about.php',
+  $baseUrl . 'career/' => 'controllers/career.php',
 ];
 
-function filter($data, $fn) {
-  $filteredData = [];
-
-  foreach ($data as $datum) {
-    if ($fn($datum)) {
-      $filteredData[] = $datum;
-    }
-  }
-
-  return $filteredData;
+if (array_key_exists($url, $routes)) {
+  include $routes[$url];
+} else {
+  dd('404 - Page not found');
 }
-
-
-include 'index.view.php';
