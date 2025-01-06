@@ -8,16 +8,21 @@ function dd($data) {
   die();
 }
 
-function getBaseUrl() {
-  // Get the folder name dynamically
-  $scriptName = dirname($_SERVER['SCRIPT_NAME']) . '/';
-
-  return rtrim($scriptName, '/') . '/';
-}
-
-function isPageActive($path) {
-  $currentUrl = parse_url($_SERVER['REQUEST_URI'])['path'];
-
-  return rtrim($currentUrl, '/') === rtrim($path, '/');
-
+function generateMoviesTable($movies) {
+  echo '<table border="1">';
+  echo '<tr>';
+  echo '<th>ID</th>';
+  echo '<th>Title</th>';
+  echo '<th>Director</th>';
+  echo '<th>Year</th>';
+  echo '</tr>';
+  foreach ($movies as $movie) {
+    echo '<tr>';
+    echo '<td>' . $movie['id'] . '</td>';
+    echo '<td>' . $movie['title'] . '</td>';
+    echo '<td>' . $movie['director'] . '</td>';
+    echo '<td>' . $movie['year'] . '</td>';
+    echo '</tr>';
+  }
+  echo '</table>';
 }

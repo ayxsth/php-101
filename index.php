@@ -1,19 +1,38 @@
 <?php
 
 include 'util.php';
+include 'Database.php';
 
-$url = parse_url($_SERVER['REQUEST_URI'])['path'];
+$dsn = 'mysql:host=localhost;dbname=pdo;port=3306;charset=utf8;user=root;password=';
 
-$baseUrl = getBaseUrl();
+$pdo = new PDO($dsn);
 
-$routes = [
-  $baseUrl => 'controllers/home.php',
-  $baseUrl . 'about/' => 'controllers/about.php',
-  $baseUrl . 'career/' => 'controllers/career.php',
-];
+$pdoStatement = $pdo->prepare('SELECT * FROM movies WHERE year > 1990');
+$pdoStatement->execute();
 
-if (array_key_exists($url, $routes)) {
-  include $routes[$url];
-} else {
-  dd('404 - Page not found');
-}
+$pdoMovies = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+
+// ----------------------------
+
+$config = include 'config.php';
+
+$db = new Database($config['database']);
+
+$dbStatement = $db->query('SELECT * FROM movies');
+$dbMovies = $dbStatement->fetchAll();
+
+// ----------------------------
+
+$dbStatementWithParams = $db->query('SELECT * FROM movies WHERE director = :director', ['director' => 'Francis Ford Coppola']);
+$dbMoviesWithParams = $dbStatementWithParams->fetchAll();
+
+?>
+
+<h1>Movies [PDO]</h1>
+<?php generateMoviesTable($pdoMovies); ?>
+
+<h1>Movies [Custom Database Class]</h1>
+<?php generateMoviesTable($dbMovies); ?>
+
+<h1>Movies By Francis Ford Coppola [Custom Database Class]</h1>
+<?php generateMoviesTable($dbMoviesWithParams); ?>
