@@ -2,9 +2,8 @@
 
 return [
   'database' => [
-    'host' => 'localhost',
-    'port' => 3306,
-    'dbname' => 'pdo',
-    'charset' => 'utf8'
+    "host" => "localhost",
+    "dbname" => "todo_app",
+    "port" => "3306"
   ]
 ];
