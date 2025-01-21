@@ -14,6 +14,6 @@ $statement = $connection->query($sql, [
   'id' => $_GET['id']
 ]);
 
-$todos = $statement->fetchAll();
+$todo = $statement->findOrFail();
 
 include 'views/todo.view.php';

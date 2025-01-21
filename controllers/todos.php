@@ -12,6 +12,6 @@ $sql = "SELECT * FROM todo";
 
 $statement = $connection->query($sql);
 
-$todos = $statement->fetchAll();
+$todos = $statement->get();
 
 include 'views/todos.view.php';
